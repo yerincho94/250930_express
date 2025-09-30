@@ -8,17 +8,24 @@
   <body>
     <section>
       <h1>AI와 대화</h1>
+      <input id="text" />
       <button id="callBtn">호출</button>
     </section>
     <script>
       const callBtn = document.querySelector("#callBtn");
+      const textInput = document.querySelector("#text");
       // const url = "http://localhost:3000/gemini";
       // http://localhost:3000 -> 서버와 페이지간의 공통 경로이므로 생략 가능
       const url = "/gemini";
       callBtn.addEventListener("click", async () => {
         const response = await fetch(url, {
           method: "POST",
-          "Content-Type": "application/json",
+          headers: {
+            "Content-Type": "application/json", //headers에 있어야 post로 전달됨
+          },
+          body: JSON.stringify({
+            text: textInput.value,
+          }),
         });
         const data = await response.json();
         console.log(data);
